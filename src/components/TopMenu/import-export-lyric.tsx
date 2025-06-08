@@ -19,6 +19,7 @@ import { uid } from "uid"
 // Import justlyrics types and helpers
 import * as justlyrics from "justlyrics"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 
 // Define format interface
 interface JustlyricsFormat {
@@ -27,7 +28,63 @@ interface JustlyricsFormat {
 	extensions: string[]
 }
 
-export const ImportExportLyric = () => {
+function fixLineForLys<T extends justlyrics.CoreLyric.LineType>(line: T): T {
+	if (line instanceof justlyrics.CoreLyric.SyllableSyncedLine) {
+		let i = 1
+		while (i < line.syllables.length) {
+			const curr = line.syllables[i]
+			if (curr.text == ' ') {
+				line.syllables.splice(i, 1)
+				line.syllables[i - 1].text += ' '
+			}
+			i++
+		}
+	}
+
+	if (line.voiceAgent?.type === justlyrics.CoreLyric.VoiceAgentType.BackgroundVocal) {
+		if (line instanceof justlyrics.CoreLyric.SyllableSyncedLine) {
+			// if first syllable starts with （ or (, remove it
+			while (
+				line.syllables[0].text.startsWith('(') ||
+				line.syllables[0].text.startsWith('（')
+			) {
+				line.syllables[0].text = line.syllables[0].text.slice(1)
+			}
+			// if last syllable ends with ) or )， remove it
+			while (
+				line.syllables[line.syllables.length - 1].text.endsWith(')') ||
+				line.syllables[line.syllables.length - 1].text.endsWith('）')
+			) {
+				line.syllables[line.syllables.length - 1].text = line.syllables[
+					line.syllables.length - 1
+				].text.slice(0, -1)
+			}
+
+			// add new ()
+			line.syllables[0].text = `(${line.syllables[0].text}`
+			line.syllables[line.syllables.length - 1].text = `${line.syllables[line.syllables.length - 1].text
+				})`
+		} else if (line instanceof justlyrics.CoreLyric.LineSyncedLine) {
+			// if first syllable starts with （ or (, remove it
+			while (line.text.startsWith('(') || line.text.startsWith('（')) {
+				line.text = line.text.slice(1)
+			}
+			// if last syllable ends with ) or )， remove it
+			while (line.text.endsWith(')') || line.text.endsWith('）')) {
+				line.text = line.text.slice(0, -1)
+			}
+
+			// add new ()
+			line.text = `(${line.text})`
+		}
+	}
+
+	return line
+}
+
+export const ImportExportLyric = (opt: {
+	forceClose: () => void,
+}) => {
 	const store = useStore()
 	const [justlyricsFormats, setJustlyricsFormats] = useState<JustlyricsFormat[]>([])
 
@@ -106,32 +163,116 @@ export const ImportExportLyric = () => {
 			}
 
 	// Enhanced export handler for justlyrics formats
-	const onExportJustlyrics =
-		(formatKey: justlyrics.LyricFormat.Type) =>
+	const onExportJustlyricsHdlGen =
+		(formatKey: justlyrics.LyricFormat.Type, mode: 'file' | 'clipboard') =>
 			async () => {
 				try {
-					const lyric = store.get(lyricLinesAtom).lyricLines
+					const currAtt = store.get(lyricLinesAtom)
+					const lyric = currAtt.lyricLines
 					const saveFileName = store.get(saveFileNameAtom)
 					const baseName = saveFileName.replace(/\.[^.]*$/, "")
 					const fileName = `${baseName}`
 
 					const justlyricsLines = justlyrics.attLinesToCoreLyric(lyric)
+					if (!justlyricsLines) {
+						toast.error("导出失败：歌词无内容")
+						return
+					}
 
-					try {
-						const result = await justlyrics.LyricFormat.requestWriteLyricsFile(
-							justlyrics.LyricFormat.getLyricFormatDisplayName(formatKey),
-							justlyrics.LyricFormat.getLyricFormatFileExtensions(formatKey),
-							justlyrics.LyricIO.Dumping.dump(formatKey, justlyricsLines),
-							{ fileName },
-						)
-						log(`Justlyrics export for ${formatKey}:`, result)
-						// const data = typeof result === 'string' ? result : String(result)
-						// const b = new Blob([data], { type: "" })
-						// await saveFile(b, fileName)
-					} catch (justlyricsError) {
-						// If justlyrics fails, provide a fallback message
-						console.warn(`Justlyrics export failed for ${formatKey}:`, justlyricsError)
-						error(`Export failed for format "${formatKey}". The justlyrics library may have compatibility issues.`, justlyricsError)
+					let footer = '',
+						header = ''
+					switch (formatKey) {
+						// @ts-ignore ts(7029)
+						case 'lyl':
+							header += '[type:LyricifyLines]\n'
+						// @ts-ignore ts(7029)
+						case 'lqe':
+							if (formatKey == 'lqe') {
+								header += '[Lyricify Quick Export]\n'
+								header += '[version:1.0]\n'
+							}
+						case 'lys':
+						case 'qrc':
+						case 'lrc':
+							const lrcHeader = justlyrics.attMetaToLrcHeader(
+								currAtt?.metadata || []
+							).trim()
+							header += lrcHeader
+							if (lrcHeader) header += '\n'
+							if (formatKey == 'lqe') header += '\n'
+							break
+
+						case 'yrc':
+							header += justlyrics.attMetaToYrcHeader(currAtt?.metadata || [])
+								.map((d) => {
+									return JSON.stringify(d)
+								})
+								.join('\n')
+							header += '\n'
+							break
+
+						default:
+							break
+					}
+
+					let fixedCl
+					switch (formatKey) {
+						case 'lys':
+						case 'qrc':
+						case 'lqe':
+							// special fix
+							// `\((\d+),(\d+)\) \(0,0\)` TO ` ($1,$2)`
+							fixedCl = justlyricsLines.map(fixLineForLys)
+							break
+						default:
+							fixedCl = justlyricsLines
+							break
+					}
+
+					const content = justlyrics.LyricIO.Dumping.dump(formatKey, fixedCl)
+
+					const concatenatedContent = header + content + footer
+
+					switch (mode) {
+						case 'file':
+							try {
+								const result = await justlyrics.LyricFormat.requestWriteLyricsFile(
+									justlyrics.LyricFormat.getLyricFormatDisplayName(formatKey),
+									justlyrics.LyricFormat.getLyricFormatFileExtensions(formatKey),
+									concatenatedContent,
+									{ fileName },
+								)
+								log(`Justlyrics export for ${formatKey}:`, result, concatenatedContent)
+								if (result)
+									toast.info("歌词已导出")
+								else
+									toast.error("歌词导出失败：已取消")
+								// await saveFile(b, fileName)
+							} catch (justlyricsError: any) {
+								if ((justlyricsError.message || "").includes('aborted')) {
+									toast.error("歌词导出失败：已取消")
+								}
+								// If justlyrics fails, provide a fallback message
+								console.warn(`Justlyrics export failed for ${formatKey}:`, justlyricsError)
+								error(`Export failed for format "${formatKey}". The justlyrics library may have compatibility issues.`, justlyricsError)
+							}
+							break
+
+						case 'clipboard':
+							try {
+								await navigator.clipboard.writeText(concatenatedContent)
+								log(`Justlyrics export for ${formatKey} to clipboard:`, concatenatedContent)
+								toast.info("歌词已复制到剪贴板")
+							} catch (clipboardError) {
+								// If clipboard fails, provide a fallback message
+								console.warn(`Justlyrics export to clipboard failed for ${formatKey}:`, clipboardError)
+								error(`Export to clipboard failed for format "${formatKey}". The clipboard may be locked or unavailable. Please try again with a different mode or browser extension.`)
+							}
+							break
+
+						default:
+							error(`Invalid export mode "${mode}" for format "${formatKey}"`)
+							break
 					}
 				} catch (e) {
 					error(`Failed to export lyric with format "${formatKey}"`, e)
@@ -186,7 +327,12 @@ export const ImportExportLyric = () => {
 						return (
 							<DropdownMenu.Item
 								key={format.formatKey}
-								onClick={onExportJustlyrics(fmt)}
+								onClick={onExportJustlyricsHdlGen(fmt, 'file')}
+								onContextMenu={e => {
+									e.preventDefault()
+									e.stopPropagation()
+									onExportJustlyricsHdlGen(fmt, 'clipboard')()
+								}}
 							>
 								导出到 {format.displayName}
 							</DropdownMenu.Item>
