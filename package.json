@@ -7,9 +7,11 @@
 		"dev": "vite",
 		"build:tsc": "tsc -b && vite build",
 		"build": "vite build",
+		"build:gh-pages": "VITE_BASE=/amll-ttml-tool/ vite build",
 		"lint": "eslint .",
 		"fmt": "biome format --write ./src",
 		"preview": "vite preview",
+		"preview:gh-pages": "VITE_BASE=/amll-ttml-tool/ vite build && vite preview --base=/amll-ttml-tool/",
 		"locale:gen": "i18next --fail-on-warnings 'src/**/*.{ts,tsx}'"
 	},
 	"dependencies": {
@@ -38,6 +40,7 @@
 		"jotai-history": "^0.4.2",
 		"jotai-immer": "^0.4.1",
 		"jotai-optics": "^0.4.0",
+		"justlyrics": "^1.0.0",
 		"monaco-editor": "^0.52.2",
 		"optics-ts": "^2.4.1",
 		"radix-ui": "^1.4.2",

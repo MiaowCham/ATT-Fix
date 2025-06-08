@@ -83,6 +83,9 @@ importers:
       jotai-optics:
         specifier: ^0.4.0
         version: 0.4.0(jotai@2.12.2(@types/react@19.0.8)(react@19.0.0))(optics-ts@2.4.1)
+      justlyrics:
+        specifier: ^1.0.0
+        version: 1.0.0
       monaco-editor:
         specifier: ^0.52.2
         version: 0.52.2
@@ -4211,6 +4214,10 @@ packages:
   jsonpointer@5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
+
+  justlyrics@1.0.0:
+    resolution: {integrity: sha512-DcW/WVHWol2BxbrlcX4qq+8wGL2HUYSGhQkN1Mjzw7KvYZsaIa3aB0znGVl5PLXww85CKHcWh1KgCrJ7hsUoRA==}
+    engines: {node: '>=14.0.0'}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -10001,6 +10008,8 @@ snapshots:
       graceful-fs: 4.2.11
 
   jsonpointer@5.0.1: {}
+
+  justlyrics@1.0.0: {}
 
   keyv@4.5.4:
     dependencies:

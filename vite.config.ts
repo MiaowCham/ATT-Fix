@@ -130,7 +130,7 @@ const plugins: Plugin[] = [
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins,
-	base: process.env.TAURI_ENV_PLATFORM ? "/" : "./",
+	base: process.env.TAURI_ENV_PLATFORM ? "/" : (process.env.VITE_BASE || "./"),
 	clearScreen: false,
 	server: {
 		strictPort: true,
