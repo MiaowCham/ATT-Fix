@@ -84,8 +84,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0(jotai@2.12.2(@types/react@19.0.8)(react@19.0.0))(optics-ts@2.4.1)
       justlyrics:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.2
+        version: 1.0.2
       monaco-editor:
         specifier: ^0.52.2
         version: 0.52.2
@@ -4215,8 +4215,8 @@ packages:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
 
-  justlyrics@1.0.0:
-    resolution: {integrity: sha512-DcW/WVHWol2BxbrlcX4qq+8wGL2HUYSGhQkN1Mjzw7KvYZsaIa3aB0znGVl5PLXww85CKHcWh1KgCrJ7hsUoRA==}
+  justlyrics@1.0.2:
+    resolution: {integrity: sha512-Mx4ho+Z+oo6bFisb+SYAFtVBN9N638DHQ+xWd/c1rEQ5wBdi1y+/b6EalGcJKP/HZXiSGylv+3cj/KpgH74gmA==}
     engines: {node: '>=14.0.0'}
 
   keyv@4.5.4:
@@ -10009,7 +10009,7 @@ snapshots:
 
   jsonpointer@5.0.1: {}
 
-  justlyrics@1.0.0: {}
+  justlyrics@1.0.2: {}
 
   keyv@4.5.4:
     dependencies:
