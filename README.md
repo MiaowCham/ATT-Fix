@@ -10,8 +10,6 @@
 一个全新的逐词歌词编辑器！针对 [Apple Music-like Lyrics 生态](https://github.com/Steve-xmh/applemusic-like-lyrics)制作！
 
 <img width="1312" alt="image" src="https://github.com/user-attachments/assets/4db81b29-df0c-4f6e-819a-3b956b28247c">
-<img width="1312" alt="image" src="https://github.com/user-attachments/assets/929eefee-ebda-43db-ad04-c0f099077053">
-<img width="1312" alt="image" src="https://github.com/user-attachments/assets/7c80902e-45a9-42ae-b980-f5500069acb8">
 
 </div>
 
@@ -20,9 +18,9 @@
 > [!WARNING]
 > 本工具不建议移动手机或小尺寸电子设备使用，操作会非常繁琐！
 
-你可以通过访问 [`https://steve-xmh.github.io/amll-ttml-tool/`](https://steve-xmh.github.io/amll-ttml-tool/)来使用本工具的在线版本。
+你可以通过访问 [`miaowcham.github.io/amll-ttml-tool/`](miaowcham.github.io/amll-ttml-tool/)来使用本工具的在线版本。
 
-也可以使用 Github Action 构建的 Tauri 桌面版本，具体见 [Github Action 构建 Tauri 桌面版本](https://github.com/Steve-xmh/amll-ttml-tool/actions/workflows/build-test.yaml)。
+也可以使用 Github Action 构建的 Tauri 桌面版本，具体见 [Github Action 构建 Tauri 桌面版本](https://github.com/MiaowCham/amll-ttml-tool/actions/workflows/build-test.yaml)。
 
 ## 编辑器功能
 
