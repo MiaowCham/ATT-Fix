@@ -19,9 +19,9 @@
 > 本工具仍在开发当中，仍有很多缺失的功能和 BUG，请仅用作尝鲜用途，并随时保存你的歌词文件以防万一！
 > 本工具不建议移动手机或小尺寸电子设备使用，操作会非常繁琐！
 
-你可以通过访问 [`miaowcham.github.io/amll-ttml-tool/`](miaowcham.github.io/amll-ttml-tool/)来使用本工具的在线版本。
+你可以通过访问 [`miaowcham.github.io/amll-ttml-tool/`](https://miaowcham.github.io/amll-ttml-tool/)来使用本工具的在线版本。
 
-也可以使用 Github Action 构建的 Tauri 桌面版本，具体见 [Github Action 构建 Tauri 桌面版本](https://github.com/MiaowCham/amll-ttml-tool/actions/workflows/build-test.yaml)。
+也可以使用 Github Action 构建的 Tauri 桌面版本，具体见 [Github Action 构建 Tauri 桌面版本](https://github.com/MiaowCham/amll-ttml-tool/actions/workflows/build-desktop.yaml)。
 
 ## 编辑器功能
 
