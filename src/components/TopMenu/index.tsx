@@ -159,7 +159,7 @@ export const TopMenu: FC = () => {
 		store.set(latencyTestDialogAtom, true);
 	}, [store]);
 
-	const onOpenGitHub = useCallback(async () => {
+	const onOpenOriginalGitHub = useCallback(async () => {
 
 		if (import.meta.env.TAURI_ENV_PLATFORM) {
 			await open("https://github.com/Steve-xmh/amll-ttml-tool");
@@ -538,7 +538,7 @@ export const TopMenu: FC = () => {
 								<Trans i18nKey="topBar.menu.help">帮助</Trans>
 							</DropdownMenu.SubTrigger>
 							<DropdownMenu.SubContent>
-								<DropdownMenu.Item onSelect={onOpenGitHub}>
+								<DropdownMenu.Item onSelect={onOpenOriginalGitHub}>
 									原项目 GitHub
 								</DropdownMenu.Item>
 								<DropdownMenu.Item onSelect={onOpenModifiedGitHub}>
