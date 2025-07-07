@@ -39,14 +39,15 @@
 > [!note]  
 > 底下的内容，没勾上的都是画饼，不要有太大期待
 
-- [x] 基于[fred913/amll-ttml-tool](https://github.com/fred913/amll-ttml-tool) 而来的更好的多格式导出能力
+- [x] 基于 [fred913/amll-ttml-tool](https://github.com/fred913/amll-ttml-tool) 而来的更好的多格式导出能力
+- [x] 补全 [fred913/amll-ttml-tool](https://github.com/fred913/amll-ttml-tool) 落后[主项目](https://github.com/steve-xmh/amll-ttml-tool)的提交
 - [x] 对 [Steve-xmh/amll-ttml-tool #89](https://github.com/Steve-xmh/amll-ttml-tool/issues/89) 的简单修复
 - [ ] 重构现有的 `.ass` 格式导出
 - [ ] 增加 `翻译/音译` 的 `.lrc` 导出支持
 - [ ] 增加标准 Apple Syllable 导出支持
-- [ ] 增加对 `Lyricify Syllable Next` 的支持 [*](#--格式文档链接httpsgithubcommiaowchamrepository_for_miaowchamtreemaindocs)
-- [ ] 增加对 `Lyrics Next` 的支持 [*](#--格式文档链接httpsgithubcommiaowchamrepository_for_miaowchamtreemaindocs)
-- [ ] 增加对 `JSON Syllable` 的支持 [*](#--格式文档链接httpsgithubcommiaowchamrepository_for_miaowchamtreemaindocs)
+- [ ] 增加对 `Lyricify Syllable Next` 的支持 [*](#--格式文档链接link)
+- [ ] 增加对 `Lyrics Next` 的支持 [*](#--格式文档链接link)
+- [ ] 增加对 `JSON Syllable` 的支持 [*](#--格式文档链接link)
 
 ###### * : 格式文档链接：[Link](https://github.com/MiaowCham/Repository_for_MiaowCham/tree/main/docs)
 
