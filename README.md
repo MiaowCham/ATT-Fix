@@ -53,7 +53,7 @@
 
 ## 开发构建
 
-本工具构建可能相对比较复杂，如果文字描述太过繁杂的话可以直接参考 [`build-web.yaml`](.github/workflows/build-web.yaml) 工作流的步骤自行进行。
+本工具构建可能相对比较复杂，如果文字描述太过繁杂的话可以直接参考 [`deploy.yml`](.github/workflows/deploy.yml) 工作流的步骤自行进行。
 
 首先，本项目仅可使用 PNPM，请确保你已经安装好了 PNPM 包管理器！
 
